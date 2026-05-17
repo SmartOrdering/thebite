@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Bite – Домашна Кухня</title>
+<meta name="description" content="The Bite – Домашна кухня. Място, където вкусът среща страстта!">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0806;
+    --deep: #110e09;
+    --surface: #18130d;
+    --card: #1e1710;
+    --border: #2e2318;
+    --orange: #d4641a;
+    --orange-light: #e8773a;
+    --orange-dim: #9a4710;
+    --cream: #f0e6d0;
+    --cream-dim: #c8b89a;
+    --cream-muted: #8a7860;
+    --red: #c0392b;
+    --gold: #c9963a;
+    --text: #f0e6d0;
+    --text-muted: #a89070;
+    --radius: 6px;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  /* ── TEXTURE OVERLAY ── */
+  body::before {
+    content:'';
+    position:fixed; inset:0;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events:none; z-index:0; opacity:.6;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 24px 80px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  #hero::before {
+    content:'';
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 30%, rgba(180,70,10,.18) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 40% at 80% 80%, rgba(120,40,5,.12) 0%, transparent 60%);
+    pointer-events:none;
+  }
+
+  /* Wood border effect */
+  #hero::after {
+    content:'';
+    position:absolute; inset:0;
+    background:
+      linear-gradient(to right, rgba(60,30,10,.7) 0%, transparent 8%, transparent 92%, rgba(60,30,10,.7) 100%),
+      linear-gradient(to bottom, rgba(40,20,5,.5) 0%, transparent 6%, transparent 94%, rgba(40,20,5,.5) 100%);
+    pointer-events:none;
+  }
+
+  .logo-svg {
+    width: min(280px, 75vw);
+    margin-bottom: 16px;
+    position: relative; z-index: 1;
+    filter: drop-shadow(0 4px 24px rgba(200,80,10,.35));
+    animation: fadeDown .8s ease both;
+  }
+
+  .hero-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(13px, 4vw, 17px);
+    letter-spacing: .35em;
+    color: var(--orange);
+    text-transform: uppercase;
+    position: relative; z-index:1;
+    animation: fadeDown .9s .1s ease both;
+    margin-bottom: 10px;
+  }
+
+  .hero-slogan {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(18px, 5.5vw, 28px);
+    color: var(--cream);
+    position: relative; z-index:1;
+    animation: fadeDown .9s .2s ease both;
+    margin-bottom: 32px;
+    max-width: 380px;
+  }
+
+  .ornament {
+    color: var(--orange);
+    font-size: 20px;
+    letter-spacing: .2em;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .scroll-hint {
+    position: relative; z-index:1;
+    animation: fadeDown .9s .4s ease both, bob 2s 1.5s ease-in-out infinite;
+    color: var(--orange-dim);
+    font-size: 13px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    cursor: pointer;
+  }
+  .scroll-hint svg { width:20px; height:20px; }
+
+  @keyframes fadeDown { from { opacity:0; transform:translateY(-18px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes bob { 0%,100% { transform:translateY(0); } 50% { transform:translateY(6px); } }
+
+  /* ── STICKY NAV ── */
+  #cat-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,8,6,.97);
+    border-bottom: 1px solid var(--border);
+    padding: 0;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    overflow-x: auto;
+    scrollbar-width: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,.5);
+  }
+  #cat-nav::-webkit-scrollbar { display:none; }
+
+  .cat-nav-inner {
+    display: flex;
+    gap: 0;
+    min-width: max-content;
+    padding: 0 12px;
+  }
+
+  .cat-btn {
+    background: none;
+    border: none;
+    color: var(--cream-muted);
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 14px 12px;
+    cursor: pointer;
+    transition: color .2s, border-bottom .2s;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    position: relative;
+  }
+  .cat-btn:hover { color: var(--cream); }
+  .cat-btn.active {
+    color: var(--orange);
+    border-bottom-color: var(--orange);
+  }
+
+  /* ── MAIN CONTENT ── */
+  main { position: relative; z-index: 1; }
+
+  /* ── CATEGORY SECTION ── */
+  .cat-section {
+    padding: 48px 0 24px;
+  }
+
+  .cat-header {
+    text-align: center;
+    margin-bottom: 28px;
+    padding: 0 20px;
+  }
+
+  .cat-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 6vw, 30px);
+    font-weight: 700;
+    color: var(--orange);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+  }
+
+  .cat-title::before,
+  .cat-title::after {
+    content: '·';
+    color: var(--orange-dim);
+    margin: 0 10px;
+    font-size: .6em;
+    vertical-align: middle;
+  }
+
+  .cat-divider {
+    width: 80px; height: 1px;
+    background: linear-gradient(to right, transparent, var(--orange-dim), transparent);
+    margin: 10px auto 0;
+  }
+
+  /* ── DISH CARDS ── */
+  .dishes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 12px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .dish-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: background .2s, border-color .2s, transform .15s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .dish-card::before {
+    content:'';
+    position:absolute; left:0; top:0; bottom:0; width:3px;
+    background: var(--orange-dim);
+    opacity: 0;
+    transition: opacity .2s;
+    border-radius: 3px 0 0 3px;
+  }
+
+  .dish-card:hover,
+  .dish-card:active {
+    background: var(--surface);
+    border-color: var(--orange-dim);
+    transform: translateX(2px);
+  }
+  .dish-card:hover::before,
+  .dish-card:active::before { opacity:1; }
+
+  .dish-card.open {
+    background: var(--surface);
+    border-color: var(--orange-dim);
+  }
+  .dish-card.open::before { opacity:1; }
+
+  .dish-left { flex:1; min-width:0; }
+
+  .dish-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--cream);
+    line-height: 1.25;
+    margin-bottom: 3px;
+  }
+
+  .dish-short {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .dish-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .dish-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    color: var(--cream-dim);
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  .dish-price .price-half {
+    color: var(--cream-muted);
+    font-size: 11px;
+  }
+
+  .dish-chevron {
+    color: var(--orange-dim);
+    transition: transform .3s;
+    flex-shrink:0;
+  }
+  .dish-card.open .dish-chevron { transform: rotate(180deg); }
+
+  /* ── EXPAND PANEL ── */
+  .dish-expand {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .35s cubic-bezier(.4,0,.2,1);
+    background: var(--deep);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    border-radius: 0 0 var(--radius) var(--radius);
+    margin-top: -2px;
+  }
+  .dish-expand.open { max-height: 400px; }
+
+  .dish-expand-inner {
+    padding: 16px 16px 18px;
+  }
+
+  .expand-section {
+    margin-bottom: 12px;
+  }
+  .expand-section:last-child { margin-bottom:0; }
+
+  .expand-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 10px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .expand-text {
+    font-size: 14px;
+    color: var(--cream-dim);
+    font-style: italic;
+    line-height: 1.55;
+  }
+
+  .allergen-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .allergen-tag {
+    background: rgba(180,70,10,.12);
+    border: 1px solid rgba(180,70,10,.25);
+    border-radius: 3px;
+    padding: 2px 8px;
+    font-size: 11px;
+    color: var(--orange-light);
+    letter-spacing: .04em;
+  }
+
+  .price-full {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--cream);
+  }
+
+  .price-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-left: 4px;
+  }
+
+  /* ── SECTION SEPARATOR ── */
+  .section-sep {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 24px 0;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .sep-line { flex:1; height:1px; background: var(--border); }
+  .sep-icon { color: var(--orange-dim); font-size:14px; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 48px 24px 80px;
+    border-top: 1px solid var(--border);
+    margin-top: 32px;
+    position: relative; z-index:1;
+  }
+
+  .footer-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--orange);
+    margin-bottom: 10px;
+  }
+
+  .footer-pills {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: .06em;
+  }
+
+  .footer-pills span::before { content:'• '; color: var(--orange-dim); }
+
+  /* ── FLOATING BUTTONS ── */
+  .float-group {
+    position: fixed;
+    bottom: 24px;
+    right: 16px;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+  }
+
+  .float-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 16px;
+    border-radius: 28px;
+    border: 1px solid;
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    letter-spacing: .06em;
+    cursor: pointer;
+    transition: all .2s;
+    white-space: nowrap;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(0,0,0,.5);
+  }
+
+  .float-lang {
+    background: rgba(18,13,8,.92);
+    border-color: var(--border);
+    color: var(--cream-dim);
+  }
+  .float-lang:hover { border-color: var(--orange-dim); color: var(--cream); }
+
+  @keyframes slideUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+
+  /* ── REVEAL ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── DESKTOP ── */
+  @media (min-width: 640px) {
+    .dishes-list { padding: 0 24px; }
+    .cat-btn { font-size: 12px; padding: 14px 16px; }
+    .dish-name { font-size: 17px; }
+    .float-group { bottom: 32px; right: 24px; }
+  }
+
+  @media (min-width: 900px) {
+    #hero { min-height: 80vh; }
+    .logo-svg { width: 320px; }
+    .hero-slogan { font-size: 30px; }
+    .dishes-list { gap: 4px; }
+  }
+
+  /* ── ADD TO CART BUTTON ── */
+  .add-to-cart-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 14px;
+    background: var(--orange);
+    color: #0a0806;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 18px;
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background .2s, transform .15s;
+  }
+  .add-to-cart-btn:hover { background: var(--orange-light); transform: scale(1.04); }
+  .add-to-cart-btn:active { transform: scale(0.97); }
+
+  /* ── CART BUBBLE ── */
+  .cart-bubble {
+    position: fixed;
+    bottom: 24px;
+    left: 16px;
+    z-index: 200;
+    background: var(--orange);
+    color: #0a0806;
+    border: none;
+    border-radius: 28px;
+    padding: 12px 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 24px rgba(212,100,26,.5);
+    transition: all .2s;
+    animation: slideUp .3s ease;
+  }
+  .cart-bubble:hover { background: var(--orange-light); transform: translateY(-2px); }
+  .cart-bubble.visible { display: flex; }
+  .cart-count {
+    background: #0a0806;
+    color: var(--orange);
+    border-radius: 50%;
+    width: 22px; height: 22px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  /* ── CART DRAWER ── */
+  .cart-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.7);
+    z-index: 300;
+    opacity: 0; pointer-events: none;
+    transition: opacity .3s;
+    backdrop-filter: blur(4px);
+  }
+  .cart-overlay.open { opacity: 1; pointer-events: all; }
+
+  .cart-drawer {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 301;
+    background: var(--deep);
+    border-top: 1px solid var(--border);
+    border-radius: 20px 20px 0 0;
+    max-height: 85vh;
+    overflow-y: auto;
+    transform: translateY(100%);
+    transition: transform .35s cubic-bezier(.4,0,.2,1);
+    padding: 0 0 32px;
+  }
+  .cart-drawer.open { transform: translateY(0); }
+
+  .cart-handle {
+    width: 40px; height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin: 12px auto 0;
+  }
+
+  .cart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0;
+    background: var(--deep);
+    z-index: 1;
+  }
+  .cart-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--orange);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .cart-close {
+    background: rgba(255,255,255,.07);
+    border: 1px solid var(--border);
+    color: var(--cream-dim);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .cart-close:hover { background: rgba(255,255,255,.12); color: var(--cream); }
+
+  .cart-empty {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 16px;
+  }
+
+  .cart-items { padding: 12px 16px; }
+
+  .cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .cart-item:last-child { border-bottom: none; }
+
+  .cart-item-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--cream);
+    flex: 1;
+  }
+  .cart-item-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    color: var(--cream-dim);
+    white-space: nowrap;
+  }
+
+  .cart-qty {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .qty-btn {
+    background: rgba(255,255,255,.07);
+    border: 1px solid var(--border);
+    color: var(--cream);
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all .2s;
+    line-height: 1;
+  }
+  .qty-btn:hover { background: var(--orange); color: #0a0806; border-color: var(--orange); }
+  .qty-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--cream);
+    min-width: 20px;
+    text-align: center;
+  }
+
+  .cart-footer {
+    padding: 16px 16px 0;
+    border-top: 1px solid var(--border);
+    margin-top: 4px;
+  }
+  .cart-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 16px;
+  }
+  .cart-total-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .cart-total-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--cream);
+  }
+
+  .cart-note-wrap { margin-bottom: 14px; }
+  .cart-note-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 10px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 6px;
+    display: block;
+  }
+  .cart-note {
+    width: 100%;
+    background: rgba(255,255,255,.04);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    color: var(--cream);
+    font-family: 'Crimson Text', serif;
+    font-size: 15px;
+    resize: none;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .cart-note:focus { border-color: var(--orange-dim); }
+  .cart-note::placeholder { color: var(--text-muted); }
+
+  .cart-table-wrap { margin-bottom: 14px; }
+  .cart-table-input {
+    width: 100%;
+    background: rgba(255,255,255,.04);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    color: var(--cream);
+    font-family: 'Crimson Text', serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .cart-table-input:focus { border-color: var(--orange-dim); }
+  .cart-table-input::placeholder { color: var(--text-muted); }
+
+  .send-order-btn {
+    width: 100%;
+    background: #7360f2;
+    color: #fff;
+    border: none;
+    border-radius: 28px;
+    padding: 15px;
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all .2s;
+    box-shadow: 0 4px 20px rgba(115,96,242,.35);
+  }
+  .send-order-btn:hover { background: #8b7af5; transform: translateY(-1px); }
+  .send-order-btn:active { transform: scale(0.98); }
+
+  @keyframes bump {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.18); }
+    100% { transform: scale(1); }
+  }
+  .bump { animation: bump .3s ease; }
+
+  /* ── DESSERT SPECIAL ── */
+  .dessert-special {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 20px;
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto;
+    padding-left: 12px; padding-right: 12px;
+  }
+  .dessert-special .ds-main {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(16px, 4.5vw, 22px);
+    color: var(--cream);
+    margin-bottom: 6px;
+  }
+  .dessert-special .ds-sub {
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section id="hero">
+  <!-- SVG Logo recreated from menu design -->
+  <svg class="logo-svg" viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The Bite Logo">
+    <defs>
+      <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+
+    <!-- Everything centred at x=160 (midpoint of 320) -->
+    <g transform="translate(160,0)">
+
+      <!-- Fork & Knife icon centred at 0 -->
+      <g transform="translate(0,8)" filter="url(#glow)">
+        <!-- Fork -->
+        <line x1="-12" y1="0" x2="-12" y2="22" stroke="#d4641a" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="-16" y1="0" x2="-16" y2="10" stroke="#d4641a" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="-8"  y1="0" x2="-8"  y2="10" stroke="#d4641a" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M-16,10 Q-12,14 -8,10" stroke="#d4641a" stroke-width="1.8" fill="none"/>
+        <!-- Flame -->
+        <path d="M0,-2 C2,4 6,6 5,12 C4,16 0,19 0,19 C0,19 -4,16 -5,12 C-6,6 -2,4 0,-2Z" fill="#d4641a" opacity=".9"/>
+        <path d="M0,5 C1,8 2,10 1.5,13 C1,15 0,16 0,16 C0,16 -1,15 -1.5,13 C-2,10 -1,8 0,5Z" fill="#e8773a"/>
+        <!-- Knife -->
+        <line x1="12" y1="0" x2="12" y2="22" stroke="#d4641a" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M12,0 C16,4 16,10 12,12" stroke="#d4641a" stroke-width="1.8" fill="none"/>
+      </g>
+
+      <!-- "The" right-aligned to icon -->
+      <text x="-26" y="68" text-anchor="end"
+        font-family="Playfair Display, Georgia, serif"
+        font-size="48" font-weight="900" fill="#f0e6d0" letter-spacing="-1">The</text>
+
+      <!-- "Bite" left-aligned from icon -->
+      <text x="26" y="68" text-anchor="start"
+        font-family="Playfair Display, Georgia, serif"
+        font-size="48" font-weight="900" fill="#f0e6d0" letter-spacing="-1">Bite</text>
+
+      <!-- Decorative lines -->
+      <line x1="-155" y1="78" x2="-34" y2="78" stroke="#d4641a" stroke-width="1" opacity=".6"/>
+      <line x1="34"   y1="78" x2="155" y2="78" stroke="#d4641a" stroke-width="1" opacity=".6"/>
+
+      <!-- Tilde ornaments -->
+      <text x="-12" y="80" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#d4641a" opacity=".8">≈≈</text>
+      <text x="12"  y="80" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#d4641a" opacity=".8">≈≈</text>
+
+    </g>
+  </svg>
+
+  <p class="hero-subtitle"><span class="ornament">〜〜</span>Домашна Кухня<span class="ornament">〜〜</span></p>
+  <p class="hero-slogan" id="slogan">Място, където вкусът среща страстта!</p>
+
+  <div class="scroll-hint" onclick="document.getElementById('cat-nav').scrollIntoView({behavior:'smooth'})">
+    <span id="scroll-label">Виж менюто</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ══════════════ STICKY NAV ══════════════ -->
+<nav id="cat-nav" aria-label="Категории">
+  <div class="cat-nav-inner" id="nav-inner"></div>
+</nav>
+
+<!-- ══════════════ MENU ══════════════ -->
+<main id="menu-main"></main>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <p class="footer-tagline" id="footer-tagline">Домашна храна, приготвена с любов!</p>
+  <div class="footer-pills">
+    <span id="fp1">Свежи продукти</span>
+    <span id="fp2">Истински вкус</span>
+    <span id="fp3">Топло посрещане</span>
+  </div>
+</footer>
+
+<!-- ══════════════ FLOATING BUTTONS ══════════════ -->
+<div class="float-group">
+  <button class="float-btn float-lang" id="lang-btn" onclick="toggleLang()" aria-label="Смени езика">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+    </svg>
+    <span id="lang-label">EN</span>
+  </button>
+
+</div>
+
+
+
+<!-- ══════════════ CART BUBBLE ══════════════ -->
+<button class="cart-bubble" id="cartBubble" onclick="openCart()">
+  🛒 <span id="cartBubbleLabel">Количка</span>
+  <span class="cart-count" id="cartCount">0</span>
+</button>
+
+<!-- ══════════════ CART DRAWER ══════════════ -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-handle"></div>
+  <div class="cart-header">
+    <div class="cart-title">🛒 <span id="cartTitleLabel">Количка</span></div>
+    <button class="cart-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty" id="cartEmpty">Количката е празна</div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total">
+      <span class="cart-total-label" id="cartTotalLabel">Общо</span>
+      <span class="cart-total-price"><span id="cartTotalPrice">0.00</span> лв.</span>
+    </div>
+    <div class="cart-table-wrap">
+      <span class="cart-note-label" id="tableLabel">Маса №</span>
+      <input class="cart-table-input" id="tableNumber" type="text" placeholder="напр. 5" />
+    </div>
+    <div class="cart-note-wrap">
+      <span class="cart-note-label" id="noteLabel">Бележка</span>
+      <textarea class="cart-note" id="cartNoteText" rows="2" placeholder="Специални желания..."></textarea>
+    </div>
+    <button class="send-order-btn" onclick="sendOrder()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.12-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+      <span id="sendOrderLabel">Изпрати поръчката</span>
+    </button>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════
+//  DATA
+// ════════════════════════════════════════
+
+const ALLERGEN_ICONS = {
+  gluten:   { bg: '🌾', label_bg: 'Глутен',   label_en: 'Gluten' },
+  milk:     { bg: '🥛', label_bg: 'Мляко',    label_en: 'Milk' },
+  eggs:     { bg: '🥚', label_bg: 'Яйца',     label_en: 'Eggs' },
+  nuts:     { bg: '🥜', label_bg: 'Ядки',     label_en: 'Nuts' },
+  mustard:  { bg: '🌿', label_bg: 'Синап',    label_en: 'Mustard' },
+  celery:   { bg: '🥬', label_bg: 'Целина',   label_en: 'Celery' },
+  fish:     { bg: '🐟', label_bg: 'Риба',     label_en: 'Fish' },
+  sesame:   { bg: '🌰', label_bg: 'Сусам',    label_en: 'Sesame' },
+  soy:      { bg: '🫘', label_bg: 'Соя',      label_en: 'Soy' },
+};
+
+const menuData = [
+  {
+    id: 'salads',
+    bg: 'САЛАТИ',
+    en: 'SALADS',
+    dishes: [
+      {
+        bg_name: 'Фермерска',
+        en_name: 'Farmhouse Salad',
+        bg_ing: 'домат, краставица, червен лук, маслини, сирене',
+        en_ing: 'tomato, cucumber, red onion, olives, white cheese',
+        allergens: ['milk'],
+        price_half: '5.90',
+        price_full: '11.03',
+      },
+      {
+        bg_name: 'Цезар',
+        en_name: 'Caesar',
+        bg_ing: 'айсберг, домашен сос Цезар, пиле от бекон, пилешко филе, пармезан',
+        en_ing: 'iceberg lettuce, homemade Caesar dressing, bacon chicken, chicken fillet, parmesan',
+        allergens: ['gluten','eggs','milk','fish'],
+        price_half: '8.90',
+        price_full: '17.41',
+      },
+      {
+        bg_name: 'Витаминозна',
+        en_name: 'Vitamin Salad',
+        bg_ing: 'цвекло, зеле, морков, ябълка, лимонов дресинг',
+        en_ing: 'beetroot, cabbage, carrot, apple, lemon dressing',
+        allergens: [],
+        price_half: '3.50',
+        price_full: '6.85',
+      },
+      {
+        bg_name: 'Капрезе',
+        en_name: 'Caprese',
+        bg_ing: 'бял розов домат с моцарела и домашно песто',
+        en_ing: 'pink tomato with mozzarella and homemade pesto',
+        allergens: ['milk','nuts'],
+        price_half: '5.90',
+        price_full: '11.03',
+      },
+    ]
+  },
+  {
+    id: 'spreads',
+    bg: 'РАЗЯДКИ',
+    en: 'SPREADS',
+    dishes: [
+      {
+        bg_name: 'Млечна разядка',
+        en_name: 'Yogurt Dip',
+        bg_ing: 'цедено мляко с кисели краставички',
+        en_ing: 'strained yogurt with gherkins',
+        allergens: ['milk'],
+        price_half: '2.20',
+        price_full: '4.30',
+      },
+      {
+        bg_name: 'Чеснова разядка',
+        en_name: 'Garlic Dip',
+        bg_ing: 'майонеза с моркови и чесън',
+        en_ing: 'mayonnaise with carrots and garlic',
+        allergens: ['eggs'],
+        price_half: '2.20',
+        price_full: '4.30',
+      },
+      {
+        bg_name: 'Билкова разядка',
+        en_name: 'Herb Cream Cheese Dip',
+        bg_ing: 'с крема сирене',
+        en_ing: 'with cream cheese',
+        allergens: ['milk'],
+        price_half: '2.50',
+        price_full: '4.88',
+      },
+      {
+        bg_name: 'Лютеница',
+        en_name: 'Lyutenitsa',
+        bg_ing: 'домашна лютеница',
+        en_ing: 'homemade roasted pepper and tomato spread',
+        allergens: [],
+        price_half: '3.20',
+        price_full: '6.25',
+      },
+    ]
+  },
+  {
+    id: 'cold-mezze',
+    bg: 'СТУДЕНИ МЕЗЕТА',
+    en: 'COLD MEZZE',
+    dishes: [
+      {
+        bg_name: 'Плато The Bite',
+        en_name: 'The Bite Platter',
+        bg_ing: 'луканка, филе Елена, кашкавал, маслини',
+        en_ing: 'salami, Elena fillet, kashkaval cheese, olives',
+        allergens: ['milk','gluten'],
+        price_half: null,
+        price_full: null,
+        price_note_bg: 'Попитайте сервитьора',
+        price_note_en: 'Ask your waiter',
+      },
+    ]
+  },
+  {
+    id: 'snacks',
+    bg: 'АЛАМИНУТИ',
+    en: 'SNACKS',
+    dishes: [
+      {
+        bg_name: 'Пилешки хапки с панко галета',
+        en_name: 'Chicken Bites with Panko',
+        bg_ing: 'пилешко филе в панко галета',
+        en_ing: 'chicken fillet in panko breadcrumbs',
+        allergens: ['gluten','eggs'],
+        price_half: '6.90',
+        price_full: '13.50',
+      },
+      {
+        bg_name: 'Топени сиренца',
+        en_name: 'Fried Cheese',
+        bg_ing: 'със сладък конфитюр',
+        en_ing: 'with sweet jam',
+        allergens: ['milk','gluten','eggs'],
+        price_half: '7.50',
+        price_full: '14.67',
+      },
+      {
+        bg_name: 'Пържени картофи',
+        en_name: 'French Fries',
+        bg_ing: 'хрупкави картофени пръчици',
+        en_ing: 'crispy potato sticks',
+        allergens: [],
+        price_half: '3.00',
+        price_full: '5.80',
+      },
+      {
+        bg_name: 'Пържени картофи със сирене',
+        en_name: 'Fries with Cheese',
+        bg_ing: 'с настъргано кашкавал',
+        en_ing: 'with grated kashkaval cheese',
+        allergens: ['milk'],
+        price_half: '3.50',
+        price_full: '6.84',
+      },
+      {
+        bg_name: 'Сотирани картофи',
+        en_name: 'Sautéed Potatoes',
+        bg_ing: 'с масло и билки',
+        en_ing: 'with butter and herbs',
+        allergens: ['milk'],
+        price_half: '3.20',
+        price_full: '6.25',
+      },
+    ]
+  },
+  {
+    id: 'pasta',
+    bg: 'ПАСТА И РИЗОТО',
+    en: 'PASTA & RISOTTO',
+    dishes: [
+      {
+        bg_name: 'Ризото с пиле и гъби',
+        en_name: 'Chicken & Mushroom Risotto',
+        bg_ing: 'ориз Арборио, пилешко филе, манатарки, маскарпоне, пармезан',
+        en_ing: 'Arborio rice, chicken fillet, porcini mushrooms, mascarpone, parmesan',
+        allergens: ['milk'],
+        price_half: '8.90',
+        price_full: '17.41',
+      },
+      {
+        bg_name: 'Ризото със зеленчуци',
+        en_name: 'Vegetable Risotto',
+        bg_ing: 'ориз Арборио, сезонни зеленчуци, пармезан',
+        en_ing: 'Arborio rice, seasonal vegetables, parmesan',
+        allergens: ['milk'],
+        price_half: '7.20',
+        price_full: '14.08',
+      },
+      {
+        bg_name: 'Паста Болонезе',
+        en_name: 'Pasta Bolognese',
+        bg_ing: 'паста, кайма, домати, червено вино, пармезан',
+        en_ing: 'pasta, minced meat, tomatoes, red wine, parmesan',
+        allergens: ['gluten','milk'],
+        price_half: '9.50',
+        price_full: '18.58',
+      },
+      {
+        bg_name: 'Паста Карбонара',
+        en_name: 'Pasta Carbonara',
+        bg_ing: 'паста, бекон, яйца, пармезан, черен пипер',
+        en_ing: 'pasta, bacon, eggs, parmesan, black pepper',
+        allergens: ['gluten','eggs','milk'],
+        price_half: '7.50',
+        price_full: '14.67',
+      },
+    ]
+  },
+  {
+    id: 'mains',
+    bg: 'ОСНОВНИ ЯСТИЯ',
+    en: 'MAIN COURSES',
+    dishes: [
+      {
+        bg_name: 'Селски кюфтенца',
+        en_name: 'Village Meatballs',
+        bg_ing: 'мини кюфтенца с печен сос и домашно картофено пюре',
+        en_ing: 'mini meatballs with roasted sauce and homemade mashed potatoes',
+        allergens: ['gluten','eggs','milk'],
+        price_half: '6.50',
+        price_full: '12.71',
+      },
+      {
+        bg_name: 'Бавно печен свински врат',
+        en_name: 'Slow-Roasted Pork Neck',
+        bg_ing: 'нежно печено свинско с домашна гарнитура',
+        en_ing: 'tender slow-roasted pork with homemade side dish',
+        allergens: ['mustard'],
+        price_half: '7.20',
+        price_full: '14.08',
+      },
+      {
+        bg_name: 'Пиле Жулиен',
+        en_name: 'Chicken Julienne',
+        bg_ing: 'пилешко филе с гъби и сметана, запечено',
+        en_ing: 'chicken fillet with mushrooms and cream, oven-baked',
+        allergens: ['milk','gluten'],
+        price_half: '6.50',
+        price_full: '12.71',
+      },
+      {
+        bg_name: 'Пиле Терияки',
+        en_name: 'Chicken Teriyaki',
+        bg_ing: 'пилешко филе с терияки сос и ориз басмати',
+        en_ing: 'chicken fillet with teriyaki sauce and basmati rice',
+        allergens: ['gluten','sesame','soy'],
+        price_half: '8.90',
+        price_full: '17.41',
+      },
+    ]
+  },
+  {
+    id: 'burgers',
+    bg: 'БУРГЕРИ И САНДВИЧИ',
+    en: 'BURGERS & SANDWICHES',
+    dishes: [
+      {
+        bg_name: 'Чийзбургер',
+        en_name: 'Cheeseburger',
+        bg_ing: 'телешка кюфте, чедър, маруля, домат, карамелизиран лук',
+        en_ing: 'beef patty, cheddar, lettuce, tomato, caramelized onion',
+        allergens: ['gluten','milk','eggs','sesame'],
+        price_half: '8.50',
+        price_full: '16.57',
+      },
+      {
+        bg_name: 'Криспи Чикън бургер',
+        en_name: 'Crispy Chicken Burger',
+        bg_ing: 'хрупкаво пиле, майонеза, кисели краставички, маруля',
+        en_ing: 'crispy chicken, mayo, pickles, lettuce',
+        allergens: ['gluten','eggs','milk','sesame'],
+        price_half: '7.50',
+        price_full: '14.67',
+      },
+      {
+        bg_name: 'Клуб сандвич',
+        en_name: 'Club Sandwich',
+        bg_ing: 'пиле, бекон, яйце, домат, маруля, майонеза',
+        en_ing: 'chicken, bacon, egg, tomato, lettuce, mayo',
+        allergens: ['gluten','eggs','milk'],
+        price_half: '6.30',
+        price_full: '12.28',
+      },
+    ]
+  },
+  {
+    id: 'kids',
+    bg: 'ДЕТСКО МЕНЮ',
+    en: "KIDS' MENU",
+    dishes: [
+      {
+        bg_name: 'Мини бургер',
+        en_name: 'Mini Burger',
+        bg_ing: 'малко телешко кюфте с чедър',
+        en_ing: 'small beef patty with cheddar',
+        allergens: ['gluten','milk','eggs','sesame'],
+        price_half: '2.50',
+        price_full: '4.88',
+      },
+      {
+        bg_name: 'Мини хот-дог',
+        en_name: 'Mini Hot Dog',
+        bg_ing: 'малка наденица в хлебче',
+        en_ing: 'small sausage in a bun',
+        allergens: ['gluten','milk'],
+        price_half: '2.00',
+        price_full: '3.91',
+      },
+      {
+        bg_name: 'Ретро сандвич',
+        en_name: 'Retro Sandwich',
+        bg_ing: 'тост с пиле, сирене и зеленчуци',
+        en_ing: 'toast with chicken, cheese and vegetables',
+        allergens: ['gluten','milk','eggs'],
+        price_half: null,
+        price_full: null,
+        price_note_bg: 'Попитайте сервитьора',
+        price_note_en: 'Ask your waiter',
+      },
+    ]
+  },
+  {
+    id: 'dessert',
+    bg: 'ДЕСЕРТ',
+    en: 'DESSERT',
+    special: true,
+    special_bg: 'Попитайте Вашия сервитьор за десерта на деня!',
+    special_en: 'Ask your waiter about today\'s dessert!',
+  },
+];
+
+// ════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════
+let lang = 'bg';
+let openCards = new Set();
+
+function t(item, bg_key, en_key) {
+  return lang === 'bg' ? item[bg_key] : item[en_key];
+}
+
+// ════════════════════════════════════════
+//  RENDER
+// ════════════════════════════════════════
+function buildMenu() {
+  const main = document.getElementById('menu-main');
+  const navInner = document.getElementById('nav-inner');
+  main.innerHTML = '';
+  navInner.innerHTML = '';
+
+  menuData.forEach(cat => {
+    // Nav button
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn';
+    btn.dataset.cat = cat.id;
+    btn.textContent = lang === 'bg' ? cat.bg : cat.en;
+    btn.onclick = () => {
+      document.getElementById('section-' + cat.id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    navInner.appendChild(btn);
+
+    // Section
+    const sec = document.createElement('section');
+    sec.className = 'cat-section reveal';
+    sec.id = 'section-' + cat.id;
+
+    const header = document.createElement('div');
+    header.className = 'cat-header';
+    header.innerHTML = `<h2 class="cat-title">${lang === 'bg' ? cat.bg : cat.en}</h2><div class="cat-divider"></div>`;
+    sec.appendChild(header);
+
+    if (cat.special) {
+      // Dessert
+      const ds = document.createElement('div');
+      ds.className = 'dishes-list';
+      ds.innerHTML = `
+        <div class="dessert-special">
+          <p class="ds-main">${lang === 'bg' ? cat.special_bg : cat.special_en}</p>
+          <p class="ds-sub">🍮 🍰 🍫</p>
+        </div>`;
+      sec.appendChild(ds);
+    } else {
+      const list = document.createElement('div');
+      list.className = 'dishes-list';
+
+      cat.dishes.forEach((dish, idx) => {
+        const cardId = `${cat.id}-${idx}`;
+        dishRegistry[cardId] = dish;
+
+        // Price display
+        let priceHtml = '';
+        if (dish.price_half && dish.price_full) {
+          priceHtml = `<div class="dish-price"><span class="price-half">${dish.price_half} /</span> ${dish.price_full} лв.</div>`;
+        } else if (dish.price_note_bg) {
+          priceHtml = `<div class="dish-price" style="font-size:11px;color:var(--text-muted)">${lang==='bg'?dish.price_note_bg:dish.price_note_en}</div>`;
+        }
+
+        // Short ingredient preview
+        const shortIng = lang === 'bg' ? dish.bg_ing : dish.en_ing;
+
+        // Allergen tags
+        const allergenHtml = dish.allergens.length > 0
+          ? dish.allergens.map(a => `<span class="allergen-tag">${ALLERGEN_ICONS[a][`label_${lang}`]} ${ALLERGEN_ICONS[a].bg}</span>`).join('')
+          : `<span style="font-size:12px;color:var(--text-muted)">${lang==='bg'?'Без алергени':'No allergens'}</span>`;
+
+        const card = document.createElement('div');
+        card.className = 'dish-card' + (openCards.has(cardId) ? ' open' : '');
+        card.dataset.id = cardId;
+        card.setAttribute('role', 'button');
+        card.setAttribute('aria-expanded', openCards.has(cardId) ? 'true' : 'false');
+        card.innerHTML = `
+          <div class="dish-left">
+            <div class="dish-name">${lang === 'bg' ? dish.bg_name : dish.en_name}</div>
+            <div class="dish-short">${shortIng}</div>
+          </div>
+          <div class="dish-right">
+            ${priceHtml}
+          </div>
+          <svg class="dish-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        `;
+
+        const expand = document.createElement('div');
+        expand.className = 'dish-expand' + (openCards.has(cardId) ? ' open' : '');
+        expand.id = 'expand-' + cardId;
+        expand.innerHTML = `
+          <div class="dish-expand-inner">
+            <div class="expand-section">
+              <span class="expand-label">${lang==='bg'?'Съставки':'Ingredients'}</span>
+              <p class="expand-text">${lang === 'bg' ? dish.bg_ing : dish.en_ing}</p>
+            </div>
+            <div class="expand-section">
+              <span class="expand-label">${lang==='bg'?'Алергени':'Allergens'}</span>
+              <div class="allergen-list">${allergenHtml}</div>
+            </div>
+            ${dish.price_full ? `
+            <div class="expand-section">
+              <button class="add-to-cart-btn" onclick="event.stopPropagation();addToCart('${cardId}')">
+                + ${lang==='bg'?'Добави':'Add to cart'}
+              </button>
+            </div>` : ''}
+          </div>
+        `;
+
+        card.addEventListener('click', () => toggleCard(cardId, card, expand));
+
+        list.appendChild(card);
+        list.appendChild(expand);
+      });
+
+      sec.appendChild(list);
+    }
+
+    // Separator
+    const sep = document.createElement('div');
+    sep.className = 'section-sep';
+    sep.innerHTML = '<div class="sep-line"></div><span class="sep-icon">✦</span><div class="sep-line"></div>';
+    sec.appendChild(sep);
+
+    main.appendChild(sec);
+  });
+
+  updateStaticText();
+  initObservers();
+}
+
+function toggleCard(id, card, expand) {
+  if (openCards.has(id)) {
+    openCards.delete(id);
+    card.classList.remove('open');
+    expand.classList.remove('open');
+    card.setAttribute('aria-expanded', 'false');
+  } else {
+    openCards.add(id);
+    card.classList.add('open');
+    expand.classList.add('open');
+    card.setAttribute('aria-expanded', 'true');
+  }
+}
+
+function updateStaticText() {
+  const isBg = lang === 'bg';
+  document.getElementById('slogan').textContent = isBg
+    ? 'Място, където вкусът среща страстта!'
+    : 'Where taste meets passion!';
+  document.getElementById('scroll-label').textContent = isBg ? 'Виж менюто' : 'View Menu';
+  document.getElementById('lang-label').textContent = isBg ? 'EN' : 'BG';
+  document.getElementById('footer-tagline').textContent = isBg ? 'Домашна храна, приготвена с любов!' : 'Home food, made with love!';
+  document.getElementById('fp1').textContent = isBg ? 'Свежи продукти' : 'Fresh Ingredients';
+  document.getElementById('fp2').textContent = isBg ? 'Истински вкус' : 'Authentic Taste';
+  document.getElementById('fp3').textContent = isBg ? 'Топло посрещане' : 'Warm Hospitality';
+  document.documentElement.lang = isBg ? 'bg' : 'en';
+}
+
+// ════════════════════════════════════════
+//  LANG TOGGLE
+// ════════════════════════════════════════
+function toggleLang() {
+  lang = lang === 'bg' ? 'en' : 'bg';
+  buildMenu();
+  // Restore scroll position
+}
+
+// ════════════════════════════════════════
+//  INTERSECTION OBSERVERS
+// ════════════════════════════════════════
+function initObservers() {
+  // Reveal animation
+  const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.05 });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  // Active nav highlight
+  const sections = document.querySelectorAll('.cat-section');
+  const navBtns = document.querySelectorAll('.cat-btn');
+
+  const navObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id.replace('section-', '');
+        navBtns.forEach(b => b.classList.toggle('active', b.dataset.cat === id));
+        // Scroll active nav btn into view
+        const activeBtn = document.querySelector(`.cat-btn[data-cat="${id}"]`);
+        if (activeBtn) {
+          activeBtn.scrollIntoView({ inline: 'nearest', behavior: 'smooth' });
+        }
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+
+  sections.forEach(s => navObs.observe(s));
+}
+
+// ════════════════════════════════════════
+//  CART
+// ════════════════════════════════════════
+let cart = [];
+const dishRegistry = {}; // cardId -> dish object
+
+function addToCart(cardId) {
+  const dish = dishRegistry[cardId];
+  if (!dish) return;
+  const name = lang === 'bg' ? dish.bg_name : dish.en_name;
+  const price = parseFloat(dish.price_full) || 0;
+  const existing = cart.find(i => i.id === cardId);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ id: cardId, name, price, qty: 1 });
+  }
+  updateCartUI();
+  const bubble = document.getElementById('cartBubble');
+  bubble.classList.remove('bump');
+  void bubble.offsetWidth;
+  bubble.classList.add('bump');
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(i => i.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+  updateCartUI();
+  renderCartItems();
+}
+
+function updateCartUI() {
+  const totalQty = cart.reduce((s, i) => s + i.qty, 0);
+  const bubble = document.getElementById('cartBubble');
+  document.getElementById('cartCount').textContent = totalQty;
+  if (totalQty > 0) bubble.classList.add('visible');
+  else { bubble.classList.remove('visible'); closeCart(); }
+  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const totalEl = document.getElementById('cartTotalPrice');
+  if (totalEl) totalEl.textContent = total.toFixed(2);
+  const footer = document.getElementById('cartFooter');
+  const empty = document.getElementById('cartEmpty');
+  if (footer) footer.style.display = cart.length > 0 ? 'block' : 'none';
+  if (empty) empty.style.display = cart.length === 0 ? 'block' : 'none';
+}
+
+function renderCartItems() {
+  const container = document.getElementById('cartItems');
+  container.innerHTML = '';
+  if (cart.length === 0) {
+    container.innerHTML = `<div class="cart-empty" id="cartEmpty">${lang === 'bg' ? 'Количката е празна' : 'Your cart is empty'}</div>`;
+    return;
+  }
+  cart.forEach(item => {
+    const el = document.createElement('div');
+    el.className = 'cart-item';
+    el.innerHTML = `
+      <div class="cart-item-name">${item.name}</div>
+      <div class="cart-qty">
+        <button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button>
+        <span class="qty-num">${item.qty}</span>
+        <button class="qty-btn" onclick="changeQty('${item.id}',1)">+</button>
+      </div>
+      <div class="cart-item-price">${(item.price * item.qty).toFixed(2)} лв.</div>`;
+    container.appendChild(el);
+  });
+  const empty = document.createElement('div');
+  empty.className = 'cart-empty'; empty.id = 'cartEmpty'; empty.style.display = 'none';
+  empty.textContent = lang === 'bg' ? 'Количката е празна' : 'Your cart is empty';
+  container.appendChild(empty);
+}
+
+function openCart() {
+  renderCartItems(); updateCartUI(); updateCartLabels();
+  document.getElementById('cartOverlay').classList.add('open');
+  document.getElementById('cartDrawer').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCart() {
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function updateCartLabels() {
+  const isBg = lang === 'bg';
+  const el = (id) => document.getElementById(id);
+  if (el('cartBubbleLabel')) el('cartBubbleLabel').textContent = isBg ? 'Количка' : 'Cart';
+  if (el('cartTitleLabel')) el('cartTitleLabel').textContent = isBg ? 'Количка' : 'Cart';
+  if (el('cartTotalLabel')) el('cartTotalLabel').textContent = isBg ? 'Общо' : 'Total';
+  if (el('tableLabel')) el('tableLabel').textContent = isBg ? 'Маса №' : 'Table No.';
+  if (el('tableNumber')) el('tableNumber').placeholder = isBg ? 'напр. 5' : 'e.g. 5';
+  if (el('noteLabel')) el('noteLabel').textContent = isBg ? 'Бележка' : 'Note';
+  if (el('cartNoteText')) el('cartNoteText').placeholder = isBg ? 'Специални желания...' : 'Special requests...';
+  if (el('sendOrderLabel')) el('sendOrderLabel').textContent = isBg ? 'Изпрати поръчката' : 'Send Order';
+}
+
+function sendOrder() {
+  if (cart.length === 0) return;
+  const table = document.getElementById('tableNumber').value.trim();
+  const note = document.getElementById('cartNoteText').value.trim();
+  const isBg = lang === 'bg';
+  if (!table) {
+    const input = document.getElementById('tableNumber');
+    input.style.borderColor = 'var(--orange)';
+    input.placeholder = isBg ? '⚠️ Въведи номер на маса!' : '⚠️ Enter table number!';
+    input.focus();
+    setTimeout(() => {
+      input.style.borderColor = '';
+      input.placeholder = isBg ? 'напр. 5' : 'e.g. 5';
+    }, 3000);
+    return;
+  }
+  let msg = isBg ? '🍽️ НОВА ПОРЪЧКА — The Bite\n\n' : '🍽️ NEW ORDER — The Bite\n\n';
+  if (table) msg += (isBg ? '📍 Маса: ' : '📍 Table: ') + table + '\n\n';
+  msg += isBg ? '📋 Поръчка:\n' : '📋 Order:\n';
+  cart.forEach(item => {
+    msg += `• ${item.name} x${item.qty} — ${(item.price * item.qty).toFixed(2)} лв.\n`;
+  });
+  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  msg += '\n' + (isBg ? '💰 Общо: ' : '💰 Total: ') + total.toFixed(2) + ' лв.';
+  if (note) msg += '\n\n' + (isBg ? '📝 Бележка: ' : '📝 Note: ') + note;
+  window.open('viber://chat?number=%2B359878456451&text=' + encodeURIComponent(msg), '_blank');
+}
+
+// ════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════
+buildMenu();
+</script>
+</body>
+</html>
